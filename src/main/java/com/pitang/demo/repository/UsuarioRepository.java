@@ -8,9 +8,9 @@ import com.pitang.demo.model.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
 
-	public Usuario findByLoginStartingWithIgnoreCase(String email);
+	public Usuario findByLoginIgnoreCase(String email);
 	
-	public Usuario findByEmailStartingWithIgnoreCase(String email);
+	public Usuario findByEmailIgnoreCase(String email);
     
     public Usuario findByLogin (String Login);
 }

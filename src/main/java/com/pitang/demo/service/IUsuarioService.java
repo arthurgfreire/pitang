@@ -13,5 +13,7 @@ public interface IUsuarioService {
 	public Usuario cadastrar(final Usuario usuario);
 
 	public List<Usuario> usersAll();
+
+	public Usuario usersId(Integer id);
 	
 }

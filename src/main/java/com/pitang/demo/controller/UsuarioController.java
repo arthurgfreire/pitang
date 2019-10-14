@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +19,7 @@ import com.pitang.demo.type.UsuarioType;
 import com.pitang.demo.type.converter.UsuarioTypeConverter;
 
 @RestController
+@RequestMapping("/api")
 public class UsuarioController {
 
 	@Autowired
@@ -40,5 +42,12 @@ public class UsuarioController {
 	   public ResponseEntity<List<UsuarioType>> listaUsuario() {		   
 		   return new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.usersAll()), HttpStatus.CREATED);
 	   }
+	   
+	    @RequestMapping(value = "/users/{id}",
+	    produces = { "application/json" }, 
+	    method = RequestMethod.GET)
+		public ResponseEntity<UsuarioType> listarUsuarioId(@PathVariable("id") Integer  id) {
+			return new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.usersId(id)), HttpStatus.CREATED);
+		}
 
 }

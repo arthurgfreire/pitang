@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class CarroType {
 	
+	private Integer id;
 	private int year;
 	private String licensePlate;
 	private String model;
@@ -33,5 +34,12 @@ public class CarroType {
 	}
 	public void setColor(String color) {
 		this.color = color;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}	
+	
 }

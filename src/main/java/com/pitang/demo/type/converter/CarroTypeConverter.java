@@ -18,6 +18,7 @@ public class CarroTypeConverter implements ITypeConverter<CarroType, Carro>{
 	@Override
 	public CarroType convertToType(Carro carro) {
 		final CarroType carroType = new CarroType();
+		carroType.setId(carro.getId());
 		carroType.setColor(carro.getColor());
 		carroType.setLicensePlate(carro.getLicensePlate());
 		carroType.setModel(carro.getModel());
@@ -27,6 +28,7 @@ public class CarroTypeConverter implements ITypeConverter<CarroType, Carro>{
 	@Override
 	public Carro convertToEntity(CarroType carroType) {
 		final Carro carro = new Carro();
+		carro.setId(carroType.getId());
 		carro.setColor(carroType.getColor());
 		carro.setLicensePlate(carroType.getLicensePlate());
 		carro.setModel(carroType.getModel());

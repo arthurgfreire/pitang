@@ -47,6 +47,11 @@ public class UsuarioService implements IUsuarioService{
 	public List<Usuario> usersAll() {
 		return usuarioReposity.findAll();
 	}
+	
+	@Override
+	public Usuario usersId(Integer id) {
+		return usuarioReposity.findById(id).orElse(null);
+	}
 
 	private boolean camposNaoPreenchido(Usuario usuario) {
 		boolean retorno = false;
@@ -68,14 +73,14 @@ public class UsuarioService implements IUsuarioService{
 	}	
 
 	private void existeEmail(String email) {
-		if(usuarioReposity.findByEmailStartingWithIgnoreCase(email)!=null) {
+		if(usuarioReposity.findByEmailIgnoreCase(email)!=null) {
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND,EMAIL_JA_EXISTENTE);
 		}
 	}
 
 	private void existeLogin(String login) {
-		if(usuarioReposity.findByLoginStartingWithIgnoreCase(login)!=null) {
+		if(usuarioReposity.findByLoginIgnoreCase(login)!=null) {
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND,LOGIN_JA_EXISTENTE);
 		}

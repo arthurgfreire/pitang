@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class UsuarioType {
 	
+	private Integer id;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -81,5 +82,12 @@ public class UsuarioType {
 	public void setCars(List<CarroType> cars) {
 		this.cars = cars;
 	}
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}	
 		
 }
