@@ -1,5 +1,7 @@
 package com.pitang.demo.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +34,11 @@ public class UsuarioController {
 		return  new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.cadastrar(
 				usuarioTypeConverter.convertToEntity(usuarioType))), HttpStatus.CREATED);
 	}
+	
+	   @RequestMapping(method=RequestMethod.GET,value="/users",
+			   produces=MediaType.APPLICATION_JSON_VALUE)
+	   public ResponseEntity<List<UsuarioType>> listaUsuario() {		   
+		   return new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.usersAll()), HttpStatus.CREATED);
+	   }
 
 }

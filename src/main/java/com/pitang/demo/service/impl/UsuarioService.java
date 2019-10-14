@@ -1,5 +1,7 @@
 package com.pitang.demo.service.impl;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,11 @@ public class UsuarioService implements IUsuarioService{
 		usuario.setPassword(BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt()));
 		usuario.setCars(carroRepository.saveAll(usuario.getCars()));
 		return usuarioReposity.save(usuario);
+	}
+	
+	@Override
+	public List<Usuario> usersAll() {
+		return usuarioReposity.findAll();
 	}
 
 	private boolean camposNaoPreenchido(Usuario usuario) {

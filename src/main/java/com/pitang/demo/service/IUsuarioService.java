@@ -1,5 +1,7 @@
 package com.pitang.demo.service;
 
+import java.util.List;
+
 import com.pitang.demo.model.Usuario;
 
 /**
@@ -9,5 +11,7 @@ import com.pitang.demo.model.Usuario;
 public interface IUsuarioService {
 	
 	public Usuario cadastrar(final Usuario usuario);
+
+	public List<Usuario> usersAll();
 	
 }
