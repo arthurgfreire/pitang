@@ -56,5 +56,14 @@ public class UsuarioController {
 	public ResponseEntity<UsuarioType> alterarUsuario(@RequestBody UsuarioType usuarioType, @PathVariable("id") Integer  id) {
 		return new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.alterar(usuarioTypeConverter.convertToEntity(usuarioType),id)), HttpStatus.CREATED);
 	}
+	
+	@RequestMapping(value = "/users/{id}",
+			produces = { "application/json" }, 
+			method = RequestMethod.DELETE)
+	public ResponseEntity<UsuarioType> removerUsiario(@PathVariable("id") Integer  id) {
+		usuarioService.removerUserId(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
 
 }

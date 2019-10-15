@@ -76,6 +76,16 @@ public class UsuarioService implements IUsuarioService{
 		return usuarioReposity.findById(id).orElse(null);
 	}
 
+	@Override
+	public void removerUserId(Integer id) {
+		if(usuarioReposity.findById(id).orElse(null)!=null) {
+			usuarioReposity.deleteById(id);
+		}else {
+			throw new ResponseStatusException(
+					HttpStatus.NOT_FOUND,CAMPOS_NAO_PREENCHIDOS);
+		}
+	}
+	
 	private boolean camposNaoPreenchido(Usuario usuario) {
 		boolean retorno = false;
 		if(Util.isStringNullOrEmpty(usuario.getEmail())||Util.isStringNullOrEmpty(usuario.getFirstName())||

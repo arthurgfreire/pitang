@@ -17,5 +17,7 @@ public interface IUsuarioService {
 	public Usuario usersId(Integer id);
 
 	public Usuario alterar(Usuario usuario, Integer id);
+
+	public void removerUserId(Integer id);
 	
 }
