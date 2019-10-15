@@ -1,5 +1,6 @@
 package com.pitang.demo.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -29,7 +30,9 @@ public class Usuario {
 	@Column(nullable = false)
 	private String phone;
 	@Column(nullable = false)
-	private Date birthday;
+	private LocalDate birthday;
+	@Column(nullable = false)
+	private LocalDate createdAt;
 	
 	@OneToMany
 	@JoinColumn(name = "usuario_id")
@@ -91,21 +94,28 @@ public class Usuario {
 		this.phone = phone;
 	}
 
-	public Date getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Date birthday) {
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
+	}
+
+	public LocalDate getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDate createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public List<Carro> getCars() {
 		return cars;
 	}
-
+	
 	public void setCars(List<Carro> cars) {
 		this.cars = cars;
-	}
-	
+	}	
 	
 }

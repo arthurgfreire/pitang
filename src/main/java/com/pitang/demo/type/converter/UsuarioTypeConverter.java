@@ -8,14 +8,13 @@ import javax.inject.Named;
 
 import com.pitang.demo.model.Usuario;
 import com.pitang.demo.type.UsuarioType;
-import com.pitang.demo.util.Util;
 
 @Named
 public class UsuarioTypeConverter implements ITypeConverter<UsuarioType, Usuario> {
 
 	@Inject 
 	private transient CarroTypeConverter carroTypeConverter; 
-	
+
 	@Override
 	public UsuarioType convertToType(Usuario usuario) {
 		UsuarioType usuarioType = new UsuarioType();
@@ -36,17 +35,14 @@ public class UsuarioTypeConverter implements ITypeConverter<UsuarioType, Usuario
 	@Override
 	public Usuario convertToEntity(UsuarioType usuarioType) {
 		Usuario usuario = new Usuario();
-			usuario.setId(usuarioType.getId());
-			usuario.setEmail(usuarioType.getEmail());
-			usuario.setFirstName(usuarioType.getFirstName());
-			usuario.setLastName(usuarioType.getLastName());
-			usuario.setPassword(usuarioType.getPassword());
-			usuario.setLogin(usuarioType.getLogin());
-			usuario.setPhone(usuarioType.getPhone());
-			usuario.setBirthday(usuarioType.getBirthday());
-//			if(!Util.isStringNullOrEmpty(usuarioType.getEmail())) {
-//				usuario.setToken(JWTUtil.create(usuarioType.getEmail()));
-//			}
+		usuario.setId(usuarioType.getId());
+		usuario.setEmail(usuarioType.getEmail());
+		usuario.setFirstName(usuarioType.getFirstName());
+		usuario.setLastName(usuarioType.getLastName());
+		usuario.setPassword(usuarioType.getPassword());
+		usuario.setLogin(usuarioType.getLogin());
+		usuario.setPhone(usuarioType.getPhone());
+		usuario.setBirthday(usuarioType.getBirthday());
 		try {
 			usuario.setCars(carroTypeConverter.convertToEntity(usuarioType.getCars()));
 		}catch (Exception e) {

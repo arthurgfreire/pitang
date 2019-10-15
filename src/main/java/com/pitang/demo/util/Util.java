@@ -14,8 +14,6 @@ public class Util {
     private static final String EMPTY_STRING = "";
     
 	private static String KEY = "SECRET_TOKEN";
-
-	private static final String TOKEN_HEADER = "Authentication";
 	
 	@SuppressWarnings("unused")
 	public static boolean isStringNullOrEmpty(final String string) {

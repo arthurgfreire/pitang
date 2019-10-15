@@ -1,5 +1,7 @@
 package com.pitang.demo.service.impl;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -39,10 +41,12 @@ public class UsuarioService implements IUsuarioService{
 
 
 	public Usuario cadastrar(Usuario usuario) {
+		usuario.setId(null);
 		camposNaoPreenchido(usuario); 
 		existeEmail(usuario.getEmail());
 		existeLogin(usuario.getLogin());
 		usuario.setPassword(BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt()));
+		usuario.setCreatedAt(LocalDate.now());
 		usuario.setCars(carroRepository.saveAll(usuario.getCars()));
 		return usuarioReposity.save(usuario);
 	}
@@ -99,7 +103,7 @@ public class UsuarioService implements IUsuarioService{
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND,"Usuário ou senha incorreta");
 		}
-		return jwtGenerator.generate(usuarioLogado);
+		return jwtGenerator.generate(usuarioLogado,LocalDate.now());
 	}
 
 	private boolean camposNaoPreenchido(Usuario usuario) {

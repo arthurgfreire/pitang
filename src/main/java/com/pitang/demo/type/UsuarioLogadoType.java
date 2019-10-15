@@ -8,7 +8,7 @@ import javax.persistence.Column;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class UsuarioType {
+public class UsuarioLogadoType {
 	
 	private Integer id;
 	private String firstName;
@@ -16,8 +16,9 @@ public class UsuarioType {
 	private String email;
 	private LocalDate birthday;
 	private String login;
-	private String password;
 	private String phone;
+	private LocalDate createdAt;
+	private LocalDate lastLogin;
 	
 	private List<CarroType> cars;
 
@@ -45,14 +46,6 @@ public class UsuarioType {
 		this.email = email;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public String getLogin() {
 		return login;
 	}
@@ -76,6 +69,29 @@ public class UsuarioType {
 	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public LocalDate getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDate createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDate getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(LocalDate lastLogin) {
+		this.lastLogin = lastLogin;
+	}
 
 	public List<CarroType> getCars() {
 		return cars;
@@ -83,12 +99,5 @@ public class UsuarioType {
 
 	public void setCars(List<CarroType> cars) {
 		this.cars = cars;
-	}
-	
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
 	}		
 }

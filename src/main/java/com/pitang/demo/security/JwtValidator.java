@@ -1,8 +1,13 @@
 package com.pitang.demo.security;
 
 import com.pitang.demo.model.JwtUser;
+import com.pitang.demo.type.UsuarioLogadoType;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -10,20 +15,20 @@ public class JwtValidator {
 
 	private static final String KEY = "SECRET_TOKEN";
 
-    public JwtUser validate(String token) {
+    public UsuarioLogadoType validate(String token) {
 
-        JwtUser jwtUser = null;
+    	UsuarioLogadoType jwtUser = null;
         try {
             Claims body = Jwts.parser()
                     .setSigningKey(KEY)
                     .parseClaimsJws(token)
                     .getBody();
 
-            jwtUser = new JwtUser();
+            jwtUser = new UsuarioLogadoType();
 
-            jwtUser.setUserName(body.getSubject());
-            jwtUser.setId(Long.parseLong((String) body.get("userId")));
-            jwtUser.setRole((String) body.get("role"));
+            jwtUser.setLogin(body.getSubject());
+            jwtUser.setId(Integer.valueOf((String) body.get("userId")));
+            jwtUser.setLastLogin(LocalDate.parse((String) body.get("lastLogin")));
         }
         catch (Exception e) {
             System.out.println(e);

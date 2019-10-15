@@ -1,8 +1,7 @@
 package com.pitang.demo.security;
 
-import com.pitang.demo.model.JwtAuthenticationToken;
-import com.pitang.demo.model.JwtUser;
-import com.pitang.demo.model.JwtUserDetails;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
@@ -12,7 +11,9 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import com.pitang.demo.model.JwtAuthenticationToken;
+import com.pitang.demo.model.JwtUserDetails;
+import com.pitang.demo.type.UsuarioLogadoType;
 
 @Component
 public class JwtAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
@@ -31,15 +32,15 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
         JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) usernamePasswordAuthenticationToken;
         String token = jwtAuthenticationToken.getToken();
 
-        JwtUser jwtUser = validator.validate(token);
+        UsuarioLogadoType jwtUser = validator.validate(token);
 
         if (jwtUser == null) {
-            throw new RuntimeException("JWT Token is incorrect");
+            throw new RuntimeException("Unauthorized - invalid session");
         }
 
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                .commaSeparatedStringToAuthorityList(jwtUser.getRole());
-        return new JwtUserDetails(jwtUser.getUserName(), jwtUser.getId(),
+                .commaSeparatedStringToAuthorityList("admin");
+        return new JwtUserDetails(jwtUser.getLogin(), jwtUser.getId(),
                 token,
                 grantedAuthorities);
     }

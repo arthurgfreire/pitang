@@ -1,11 +1,9 @@
 package com.pitang.demo.type.converter;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
-import javax.persistence.Column;
 
 import com.pitang.demo.model.Carro;
 import com.pitang.demo.type.CarroType;

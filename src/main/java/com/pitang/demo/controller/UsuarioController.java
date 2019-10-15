@@ -20,7 +20,6 @@ import com.pitang.demo.type.UsuarioType;
 import com.pitang.demo.type.converter.UsuarioTypeConverter;
 
 @RestController
-@RequestMapping("/api")
 public class UsuarioController {
 
 	@Autowired
