@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,8 +32,6 @@ public class UsuarioController {
 	@RequestMapping(method=RequestMethod.POST,value="/users",
 			consumes=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UsuarioType> cadastrarUsuario(@RequestBody UsuarioType usuarioType) {
-		int x;
-		x=1;
 		return  new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.cadastrar(
 				usuarioTypeConverter.convertToEntity(usuarioType))), HttpStatus.CREATED);
 	}
@@ -40,29 +39,36 @@ public class UsuarioController {
 	@RequestMapping(method=RequestMethod.GET,value="/users",
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<UsuarioType>> listaUsuario() {		   
-		return new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.usersAll()), HttpStatus.CREATED);
+		return new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.usersAll()), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/users/{id}",
-			produces = { "application/json" }, 
+			produces = { MediaType.APPLICATION_JSON_VALUE }, 
 			method = RequestMethod.GET)
 	public ResponseEntity<UsuarioType> listarUsuarioId(@PathVariable("id") Integer  id) {
-		return new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.usersId(id)), HttpStatus.CREATED);
+		return new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.usersId(id)), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/users/{id}",
 			produces = { "application/json" }, 
 			method = RequestMethod.PUT)
 	public ResponseEntity<UsuarioType> alterarUsuario(@RequestBody UsuarioType usuarioType, @PathVariable("id") Integer  id) {
-		return new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.alterar(usuarioTypeConverter.convertToEntity(usuarioType),id)), HttpStatus.CREATED);
+		return new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.alterar(usuarioTypeConverter.convertToEntity(usuarioType),id)), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/users/{id}",
-			produces = { "application/json" }, 
+			produces = { MediaType.APPLICATION_JSON_VALUE }, 
 			method = RequestMethod.DELETE)
 	public ResponseEntity<UsuarioType> removerUsiario(@PathVariable("id") Integer  id) {
 		usuarioService.removerUserId(id);
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/signin",
+			produces = { MediaType.APPLICATION_JSON_VALUE }, 
+			method = RequestMethod.GET)
+	public ResponseEntity<String> login(@RequestHeader("login") String login,@RequestHeader("password") String password) {
+		return  new ResponseEntity<>(usuarioService.login(login,password), HttpStatus.OK);
 	}
 
 

@@ -19,5 +19,7 @@ public interface IUsuarioService {
 	public Usuario alterar(Usuario usuario, Integer id);
 
 	public void removerUserId(Integer id);
+
+	public String login(String login, String password);
 	
 }

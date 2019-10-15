@@ -15,6 +15,7 @@ import com.pitang.demo.model.Carro;
 import com.pitang.demo.model.Usuario;
 import com.pitang.demo.repository.CarroRepository;
 import com.pitang.demo.repository.UsuarioRepository;
+import com.pitang.demo.security.JwtGenerator;
 import com.pitang.demo.service.IUsuarioService;
 import com.pitang.demo.util.Util;
 
@@ -26,6 +27,9 @@ public class UsuarioService implements IUsuarioService{
 
 	@Inject
 	private CarroRepository carroRepository;
+
+	@Inject
+	private JwtGenerator jwtGenerator;
 
 	private final String LOGIN_INEXISTENTE_OU_SENHA_INVÁLIDA = "Invalid login or password";
 	private final String EMAIL_JA_EXISTENTE = "Email already exists";
@@ -85,7 +89,19 @@ public class UsuarioService implements IUsuarioService{
 					HttpStatus.NOT_FOUND,CAMPOS_NAO_PREENCHIDOS);
 		}
 	}
-	
+
+	@Override
+	public String login(String login, String password) {
+		camposLoginPasswordNaoPreenchido(login,password);
+		Usuario usuarioLogado = usuarioReposity.findByLogin(login);
+		if(usuarioLogado==null||
+				!BCrypt.checkpw(password, usuarioLogado.getPassword())) {
+			throw new ResponseStatusException(
+					HttpStatus.NOT_FOUND,"Usuário ou senha incorreta");
+		}
+		return jwtGenerator.generate(usuarioLogado);
+	}
+
 	private boolean camposNaoPreenchido(Usuario usuario) {
 		boolean retorno = false;
 		if(Util.isStringNullOrEmpty(usuario.getEmail())||Util.isStringNullOrEmpty(usuario.getFirstName())||
@@ -125,7 +141,7 @@ public class UsuarioService implements IUsuarioService{
 					HttpStatus.NOT_FOUND,LOGIN_JA_EXISTENTE);
 		}
 	}	
-	
+
 	private void existeLoginAlteracao(String login, Integer id) {
 		Usuario a = usuarioReposity.findByLoginIgnoreCaseAndIdNot(login, id);
 		if(usuarioReposity.findByLoginIgnoreCaseAndIdNot(login, id)!=null) {
@@ -133,4 +149,12 @@ public class UsuarioService implements IUsuarioService{
 					HttpStatus.NOT_FOUND,LOGIN_JA_EXISTENTE);
 		}
 	}	
+
+	private void camposLoginPasswordNaoPreenchido(final String login, final String password) {
+		if(Util.isStringNullOrEmpty(login)||
+				Util.isStringNullOrEmpty(password)) {
+			throw new ResponseStatusException(
+					HttpStatus.NOT_FOUND,CAMPOS_NAO_PREENCHIDOS);
+		}
+	}
 }
