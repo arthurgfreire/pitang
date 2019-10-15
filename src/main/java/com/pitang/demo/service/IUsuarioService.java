@@ -15,5 +15,7 @@ public interface IUsuarioService {
 	public List<Usuario> usersAll();
 
 	public Usuario usersId(Integer id);
+
+	public Usuario alterar(Usuario usuario, Integer id);
 	
 }

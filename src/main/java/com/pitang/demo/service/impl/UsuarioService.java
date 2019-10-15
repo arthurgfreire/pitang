@@ -42,12 +42,35 @@ public class UsuarioService implements IUsuarioService{
 		usuario.setCars(carroRepository.saveAll(usuario.getCars()));
 		return usuarioReposity.save(usuario);
 	}
-	
+
+	@Override
+	public Usuario alterar(Usuario usuario,Integer id) {
+		if(id!=null) {
+			Usuario usuarioExiste =  usuarioReposity.findById(id).orElse(null);
+			if(usuarioExiste!=null) {
+				usuario.setId(usuarioExiste.getId());
+				camposNaoPreenchido(usuario); 
+				existeEmailAlteracao(usuario.getEmail(),id);
+				existeLoginAlteracao(usuario.getLogin(),id);
+				usuario.setPassword(BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt()));
+				carroRepository.deleteAll(usuarioExiste.getCars());
+				usuario.setCars(carroRepository.saveAll(usuario.getCars()));
+				return usuarioReposity.save(usuario);
+			}else {
+				throw new ResponseStatusException(
+						HttpStatus.NOT_FOUND,CAMPOS_INVALIDOS);
+			}
+		}else {
+			throw new ResponseStatusException(
+					HttpStatus.NOT_FOUND,CAMPOS_NAO_PREENCHIDOS);
+		}
+	}
+
 	@Override
 	public List<Usuario> usersAll() {
 		return usuarioReposity.findAll();
 	}
-	
+
 	@Override
 	public Usuario usersId(Integer id) {
 		return usuarioReposity.findById(id).orElse(null);
@@ -78,9 +101,24 @@ public class UsuarioService implements IUsuarioService{
 					HttpStatus.NOT_FOUND,EMAIL_JA_EXISTENTE);
 		}
 	}
+	private void existeEmailAlteracao(String email, Integer id) {
+		Usuario a = usuarioReposity.findByEmailIgnoreCaseAndIdNot(email, id);
+		if(usuarioReposity.findByEmailIgnoreCaseAndIdNot(email,id)!=null) {
+			throw new ResponseStatusException(
+					HttpStatus.NOT_FOUND,EMAIL_JA_EXISTENTE);
+		}
+	}
 
 	private void existeLogin(String login) {
 		if(usuarioReposity.findByLoginIgnoreCase(login)!=null) {
+			throw new ResponseStatusException(
+					HttpStatus.NOT_FOUND,LOGIN_JA_EXISTENTE);
+		}
+	}	
+	
+	private void existeLoginAlteracao(String login, Integer id) {
+		Usuario a = usuarioReposity.findByLoginIgnoreCaseAndIdNot(login, id);
+		if(usuarioReposity.findByLoginIgnoreCaseAndIdNot(login, id)!=null) {
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND,LOGIN_JA_EXISTENTE);
 		}

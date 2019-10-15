@@ -36,18 +36,25 @@ public class UsuarioController {
 		return  new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.cadastrar(
 				usuarioTypeConverter.convertToEntity(usuarioType))), HttpStatus.CREATED);
 	}
-	
-	   @RequestMapping(method=RequestMethod.GET,value="/users",
-			   produces=MediaType.APPLICATION_JSON_VALUE)
-	   public ResponseEntity<List<UsuarioType>> listaUsuario() {		   
-		   return new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.usersAll()), HttpStatus.CREATED);
-	   }
-	   
-	    @RequestMapping(value = "/users/{id}",
-	    produces = { "application/json" }, 
-	    method = RequestMethod.GET)
-		public ResponseEntity<UsuarioType> listarUsuarioId(@PathVariable("id") Integer  id) {
-			return new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.usersId(id)), HttpStatus.CREATED);
-		}
+
+	@RequestMapping(method=RequestMethod.GET,value="/users",
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<UsuarioType>> listaUsuario() {		   
+		return new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.usersAll()), HttpStatus.CREATED);
+	}
+
+	@RequestMapping(value = "/users/{id}",
+			produces = { "application/json" }, 
+			method = RequestMethod.GET)
+	public ResponseEntity<UsuarioType> listarUsuarioId(@PathVariable("id") Integer  id) {
+		return new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.usersId(id)), HttpStatus.CREATED);
+	}
+
+	@RequestMapping(value = "/users/{id}",
+			produces = { "application/json" }, 
+			method = RequestMethod.PUT)
+	public ResponseEntity<UsuarioType> alterarUsuario(@RequestBody UsuarioType usuarioType, @PathVariable("id") Integer  id) {
+		return new ResponseEntity<>(usuarioTypeConverter.convertToType(usuarioService.alterar(usuarioTypeConverter.convertToEntity(usuarioType),id)), HttpStatus.CREATED);
+	}
 
 }
