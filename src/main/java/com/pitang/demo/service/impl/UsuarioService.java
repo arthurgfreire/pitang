@@ -41,7 +41,7 @@ public class UsuarioService implements IUsuarioService{
 
 
 	public Usuario cadastrar(Usuario usuario) {
-		usuario.setId(null);
+		usuario.setIdUsuario(null);
 		camposNaoPreenchido(usuario); 
 		existeEmail(usuario.getEmail());
 		existeLogin(usuario.getLogin());
@@ -56,7 +56,7 @@ public class UsuarioService implements IUsuarioService{
 		if(id!=null) {
 			Usuario usuarioExiste =  usuarioReposity.findById(id).orElse(null);
 			if(usuarioExiste!=null) {
-				usuario.setId(usuarioExiste.getId());
+				usuario.setIdUsuario(usuarioExiste.getId());
 				camposNaoPreenchido(usuario); 
 				existeEmailAlteracao(usuario.getEmail(),id);
 				existeLoginAlteracao(usuario.getLogin(),id);

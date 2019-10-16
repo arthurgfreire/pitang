@@ -1,11 +1,11 @@
 package com.pitang.demo.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 public class Usuario {
 	@Id
 	@GeneratedValue
+	@Column(name= "idUsuario")
 	private Integer id;
 	
 	@Column(nullable = false)
@@ -33,7 +34,6 @@ public class Usuario {
 	private LocalDate birthday;
 	@Column(nullable = false)
 	private LocalDate createdAt;
-	
 	@OneToMany
 	@JoinColumn(name = "usuario_id")
 	private List<Carro> cars;
@@ -42,8 +42,8 @@ public class Usuario {
 		return id;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setIdUsuario(Integer idUsuario) {
+		this.id = idUsuario;
 	}
 
 	public String getFirstName() {
@@ -113,9 +113,12 @@ public class Usuario {
 	public List<Carro> getCars() {
 		return cars;
 	}
-	
+
 	public void setCars(List<Carro> cars) {
 		this.cars = cars;
-	}	
+	}
+
+
+	
 	
 }

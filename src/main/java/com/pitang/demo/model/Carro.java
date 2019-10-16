@@ -2,8 +2,11 @@ package com.pitang.demo.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 
 @Entity
@@ -20,6 +23,9 @@ public class Carro {
 	private String model;
 	@Column(nullable = false)
 	private String color;
+	@ManyToOne
+    @JoinColumn(name="usuario_id")
+	private Usuario usuario;
 	
 	public Integer getId() {
 		return id;
@@ -52,5 +58,12 @@ public class Carro {
 		this.color = color;
 	}
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 	
 }

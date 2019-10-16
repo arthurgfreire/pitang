@@ -1,10 +1,13 @@
 package com.pitang.demo.service.impl;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pitang.demo.model.Carro;
 import com.pitang.demo.model.Usuario;
 import com.pitang.demo.repository.CarroRepository;
 import com.pitang.demo.repository.UsuarioRepository;
@@ -21,8 +24,8 @@ public class CarroService implements ICarroService{
 
 
 	@Override
-	public Usuario usersLogado(Integer id) {
-		return usuarioReposity.findById(id).orElse(null);
+	public List<Carro> carsAll(Integer id) {
+		return carroRepository.findAllByUsuarioId(id);
 	}
 
 }

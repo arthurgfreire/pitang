@@ -2,14 +2,14 @@ package com.pitang.demo.service;
 
 import java.util.List;
 
-import com.pitang.demo.model.Usuario;
+import com.pitang.demo.model.Carro;
 
 /**
  * Interface do serviço de Carro.
  *
  */
 public interface ICarroService {
-	
-	public Usuario usersLogado(Integer id);
+
+	public List<Carro> carsAll(Integer id);
 	
 }
