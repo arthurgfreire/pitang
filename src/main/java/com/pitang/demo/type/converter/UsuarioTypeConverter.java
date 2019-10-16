@@ -17,38 +17,42 @@ public class UsuarioTypeConverter implements ITypeConverter<UsuarioType, Usuario
 
 	@Override
 	public UsuarioType convertToType(Usuario usuario) {
-		UsuarioType usuarioType = new UsuarioType();
-
-		usuarioType.setId(usuario.getId());
-		usuarioType.setEmail(usuario.getEmail());
-		usuarioType.setFirstName(usuario.getFirstName());
-		usuarioType.setLastName(usuario.getLastName());
-		usuarioType.setPassword(usuario.getPassword());
-		usuarioType.setLogin(usuario.getLogin());
-		usuarioType.setPhone(usuario.getPhone());
-		usuarioType.setBirthday(usuario.getBirthday());
-		usuarioType.setCars(carroTypeConverter.convertToType(usuario.getCars()));
-
-		return usuarioType;
+		if(usuario!=null) {
+			UsuarioType usuarioType = new UsuarioType();
+			usuarioType.setId(usuario.getId());
+			usuarioType.setEmail(usuario.getEmail());
+			usuarioType.setFirstName(usuario.getFirstName());
+			usuarioType.setLastName(usuario.getLastName());
+			usuarioType.setPassword(usuario.getPassword());
+			usuarioType.setLogin(usuario.getLogin());
+			usuarioType.setPhone(usuario.getPhone());
+			usuarioType.setBirthday(usuario.getBirthday());
+			usuarioType.setCars(carroTypeConverter.convertToType(usuario.getCars()));
+			return usuarioType;
+		}
+		return null;
 	}
 
 	@Override
 	public Usuario convertToEntity(UsuarioType usuarioType) {
-		Usuario usuario = new Usuario();
-		usuario.setIdUsuario(usuarioType.getId());
-		usuario.setEmail(usuarioType.getEmail());
-		usuario.setFirstName(usuarioType.getFirstName());
-		usuario.setLastName(usuarioType.getLastName());
-		usuario.setPassword(usuarioType.getPassword());
-		usuario.setLogin(usuarioType.getLogin());
-		usuario.setPhone(usuarioType.getPhone());
-		usuario.setBirthday(usuarioType.getBirthday());
-		try {
-			usuario.setCars(carroTypeConverter.convertToEntity(usuarioType.getCars()));
-		}catch (Exception e) {
-			usuario = null;
+		if(usuarioType!=null) {
+			Usuario usuario = new Usuario();
+			usuario.setIdUsuario(usuarioType.getId());
+			usuario.setEmail(usuarioType.getEmail());
+			usuario.setFirstName(usuarioType.getFirstName());
+			usuario.setLastName(usuarioType.getLastName());
+			usuario.setPassword(usuarioType.getPassword());
+			usuario.setLogin(usuarioType.getLogin());
+			usuario.setPhone(usuarioType.getPhone());
+			usuario.setBirthday(usuarioType.getBirthday());
+			try {
+				usuario.setCars(carroTypeConverter.convertToEntity(usuarioType.getCars()));
+			}catch (Exception e) {
+				usuario = null;
+			}
+			return usuario;
 		}
-		return usuario;
+		return null;
 	}
 
 	@Override

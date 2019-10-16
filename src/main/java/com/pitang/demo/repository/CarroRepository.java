@@ -12,4 +12,7 @@ public interface CarroRepository extends JpaRepository<Carro, Integer>{
 
 	public List<Carro> findAllByUsuarioId (Integer id);
 	
+	public Carro findByIdAndUsuarioId (Integer id, Integer idCarroLogado);
+	
+	public Carro findBylicensePlate (String placa);
 }

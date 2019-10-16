@@ -15,23 +15,29 @@ public class CarroTypeConverter implements ITypeConverter<CarroType, Carro>{
 
 	@Override
 	public CarroType convertToType(Carro carro) {
-		final CarroType carroType = new CarroType();
-		carroType.setId(carro.getId());
-		carroType.setColor(carro.getColor());
-		carroType.setLicensePlate(carro.getLicensePlate());
-		carroType.setModel(carro.getModel());
-		carroType.setYear(carro.getYear());
-		return carroType;
+		if(carro!=null) {
+			final CarroType carroType = new CarroType();
+			carroType.setId(carro.getId());
+			carroType.setColor(carro.getColor());
+			carroType.setLicensePlate(carro.getLicensePlate());
+			carroType.setModel(carro.getModel());
+			carroType.setYear(carro.getYear());
+			return carroType;
+		}
+		return null;
 	}
 	@Override
 	public Carro convertToEntity(CarroType carroType) {
-		final Carro carro = new Carro();
-		carro.setId(carroType.getId());
-		carro.setColor(carroType.getColor());
-		carro.setLicensePlate(carroType.getLicensePlate());
-		carro.setModel(carroType.getModel());
-		carro.setYear(carroType.getYear());
-		return carro;
+		if(carroType!=null) {
+			final Carro carro = new Carro();
+			carro.setId(carroType.getId());
+			carro.setColor(carroType.getColor());
+			carro.setLicensePlate(carroType.getLicensePlate());
+			carro.setModel(carroType.getModel());
+			carro.setYear(carroType.getYear());
+			return carro;
+		}
+		return null;
 	}
 	@Override
 	public List<CarroType> convertToType(List<Carro> listaCarro) {
