@@ -1,20 +1,15 @@
 package com.pitang.demo;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Inject;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mindrot.jbcrypt.BCrypt;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -41,13 +36,6 @@ public class UsuarioServiceTest {
 	
 	@Mock
 	private JwtGenerator jwtGenerator;
-	
-	@Mock
-	private BCrypt bCrypt = new BCrypt();
-	
-	private final String EMAIL = "email";
-	private final String PASSWORD = "password";
-	private final String AUTHORIZATION = "authorization";
 	
 	//////////////// Ini Cadastro
 	@Test 
@@ -244,140 +232,6 @@ public class UsuarioServiceTest {
 	public void loginPassNull() {
 		target.login("login", null);
 	}
-//	@Test
-//	public void cadastrarTestFail() {
-//		final Usuario expected = getUsuarioMock(1);
-//		when(usuarioReposity.findByEmailStartingWithIgnoreCase(expected.getEmail()))
-//		.thenReturn(expected);
-//		final MenssagemType actual = (MenssagemType)target.cadastrar(expected);
-//		assertNotNull(actual);
-//	}
-//	@Test
-//	public void cadastrarTestFail1() {
-//		final Usuario expected = getUsuarioMock(null);
-//		expected.setFirstName(null);
-//		final MenssagemType actual = (MenssagemType)target.cadastrar(expected);
-//		assertNotNull(actual);
-//	}
-//	@Test
-//	public void cadastrarTestFail2() {
-//		final Usuario expected = getUsuarioMock(null);
-//		expected.setEmail(null);
-//		final MenssagemType actual = (MenssagemType)target.cadastrar(expected);
-//		assertNotNull(actual);
-//	}
-//	@Test
-//	public void cadastrarTestFail3() {
-//		final Usuario expected = getUsuarioMock(null);
-//		expected.setFirstName(null);
-//		final MenssagemType actual = (MenssagemType)target.cadastrar(expected);
-//		assertNotNull(actual);
-//	}
-//	@Test
-//	public void cadastrarTestFail4() {
-//		final Usuario expected = getUsuarioMock(null);
-//		expected.setLastName(null);
-//		final MenssagemType actual = (MenssagemType)target.cadastrar(expected);
-//		assertNotNull(actual);
-//	}
-//	@Test
-//	public void cadastrarTestFail5() {
-//		final Usuario expected = getUsuarioMock(null);
-//		expected.setPassword(null);
-//		final MenssagemType actual = (MenssagemType)target.cadastrar(expected);
-//		assertNotNull(actual);
-//	}
-//	@Test
-//	public void cadastrarTestFail6() {
-//		final Usuario expected = getUsuarioMock(null);
-//		expected.setPhones(null);
-//		final MenssagemType actual = (MenssagemType)target.cadastrar(expected);
-//		assertNotNull(actual);
-//	}
-//	@Test
-//	public void cadastrarTestFail7() {
-//		final Usuario expected = getUsuarioMock(null);
-//		expected.getPhones().get(0).setAreaCode(null);
-//		final MenssagemType actual = (MenssagemType)target.cadastrar(expected);
-//		assertNotNull(actual);
-//	}
-//	@Test
-//	public void cadastrarTestFail8() {
-//		final Usuario expected = getUsuarioMock(null);
-//		expected.getPhones().get(0).setCountryCode(null);
-//		final MenssagemType actual = (MenssagemType)target.cadastrar(expected);
-//		assertNotNull(actual);
-//	}
-//	@Test
-//	public void cadastrarTestFail9() {
-//		final Usuario expected = getUsuarioMock(null);
-//		expected.getPhones().get(0).setNumber(null);
-//		final MenssagemType actual = (MenssagemType)target.cadastrar(expected);
-//		assertNotNull(actual);
-//	}
-//	@Test
-//	public void cadastrarTestFail10() {
-//		final MenssagemType actual = (MenssagemType)target.cadastrar(null);
-//		assertNotNull(actual);
-//	}
-//	
-//	@Test
-//	public void buscaPorEmailPasswordTest() {
-//		final Usuario expected = getUsuarioMock(1);
-//		when(usuarioReposity.
-//				findByEmailAndPassword(EMAIL,Util.md5(PASSWORD)))
-//		.thenReturn(expected);
-//		when(usuarioReposity.save(expected)).thenReturn(expected);
-//		final Usuario actual = (Usuario)target.buscaPorEmailPassword(EMAIL, PASSWORD);
-//		assertEquals(expected, actual);
-//	}
-//	
-//	@Test
-//	public void buscaPorEmailPasswordTestFail() {
-//		when(usuarioReposity.
-//				findByEmailAndPassword(EMAIL,Util.md5(PASSWORD)))
-//		.thenReturn(null);
-//		assertNotNull((MenssagemType)target.buscaPorEmailPassword(EMAIL, PASSWORD));
-//	}
-//	@Test
-//	public void buscaPorEmailPasswordTestFail1() {
-//		assertNotNull((MenssagemType)target.buscaPorEmailPassword(EMAIL, null));
-//	}
-//	@Test
-//	public void buscaPorEmailPasswordTestFail2() {
-//		assertNotNull((MenssagemType)target.buscaPorEmailPassword(null, PASSWORD));
-//	}
-//	
-//	@Test
-//	public void buscaPorTokenTest() {
-//		final Usuario expected = getUsuarioMock(1);
-//		expected.setToken(AUTHORIZATION);
-//		when(usuarioReposity.findByToken(AUTHORIZATION))
-//		.thenReturn(expected);
-//		final Usuario actual = (Usuario)target.buscaPorToken(AUTHORIZATION);
-//		assertEquals(expected, actual);
-//	}
-//	
-//	@Test
-//	public void buscaPorTokenTestFail() {
-//		final Usuario expected = getUsuarioMock(1);
-//		when(usuarioReposity.findByToken(AUTHORIZATION))
-//		.thenReturn(expected); 
-//		assertNotNull((MenssagemType)target.buscaPorToken(AUTHORIZATION));
-//	}
-//	@Test
-//	public void buscaPorTokenTestFail1() {
-//		final Usuario expected = getUsuarioMock(1);
-//		expected.setToken(AUTHORIZATION);
-//		when(usuarioReposity.findByToken(AUTHORIZATION))
-//		.thenReturn(null); 
-//		assertNotNull((MenssagemType)target.buscaPorToken(AUTHORIZATION));
-//	}
-//	
-//	@Test
-//	public void buscaPorTokenTestFail2() {
-//		assertNotNull((MenssagemType)target.buscaPorToken(null));
-//	}
 	
 	private Usuario getUsuarioMock(Integer id) {
 		Usuario usuario = new Usuario();

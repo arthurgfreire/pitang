@@ -59,7 +59,7 @@ public class CarroService implements ICarroService{
 
 	@Override
 	public Carro alterar(Integer id,Integer idLogado, Carro carro) {
-		if(id!=null) {
+		if(id!=null&&id>0) {
 			Carro car = carroRepository.findByIdAndUsuarioId(id, idLogado);
 			if(car!=null) {
 				carro.setId(id);
