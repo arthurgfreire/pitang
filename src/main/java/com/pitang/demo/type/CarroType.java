@@ -10,6 +10,7 @@ public class CarroType {
 	private String licensePlate;
 	private String model;
 	private String color;
+	private Integer contador;
 
 	public int getYear() {
 		return year;
@@ -40,6 +41,14 @@ public class CarroType {
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	public Integer getContador() {
+		return contador;
+	}
+	public void setContador(Integer contador) {
+		this.contador = contador;
 	}	
+	
+	
 	
 }

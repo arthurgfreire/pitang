@@ -23,6 +23,8 @@ public class Carro {
 	private String model;
 	@Column(nullable = false)
 	private String color;
+	@Column(nullable = false)
+	private Integer contador;
 	@ManyToOne
     @JoinColumn(name="usuario_id")
 	private Usuario usuario;
@@ -64,6 +66,12 @@ public class Carro {
 	
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	public Integer getContador() {
+		return contador;
+	}
+	public void setContador(Integer contador) {
+		this.contador = contador;
 	}
 	
 }

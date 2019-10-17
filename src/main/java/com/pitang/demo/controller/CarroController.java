@@ -63,7 +63,7 @@ public class CarroController {
 	
 	@RequestMapping(method=RequestMethod.POST,value="/cars",
 			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<CarroType> cadastrarUsuario(@RequestBody CarroType carroType) {
+	public ResponseEntity<CarroType> cadastrarCar(@RequestBody CarroType carroType) {
 		return  new ResponseEntity<>(carroTypeConverter.convertToType(carroService.cadastrar(usuarioLogado().getId(),
 				carroTypeConverter.convertToEntity(carroType))), HttpStatus.CREATED);
 	}
@@ -71,7 +71,7 @@ public class CarroController {
 	@RequestMapping(value = "/cars/{id}",
 			produces = { "application/json" }, 
 			method = RequestMethod.PUT)
-	public ResponseEntity<CarroType> alterarUsuario(@RequestBody CarroType carroType, @PathVariable("id") Integer  id) {
+	public ResponseEntity<CarroType> alterarCar(@RequestBody CarroType carroType, @PathVariable("id") Integer  id) {
 		return new ResponseEntity<>(carroTypeConverter.convertToType(carroService.alterar(id,
 				usuarioLogado().getId(),carroTypeConverter.convertToEntity(carroType))), HttpStatus.OK);
 	}

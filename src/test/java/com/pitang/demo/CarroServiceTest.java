@@ -80,7 +80,7 @@ public class CarroServiceTest {
 	///////iniciar Alterar
 	@Test 
 	public void alterarTest() {
-		final Carro expected = getCarroComUserMock();
+		 Carro expected = getCarroComUserMock();
 		when(carroRepository.findByIdAndUsuarioId(expected.getId(), 1))
 		.thenReturn(expected);
 		when(carroRepository.findByLicensePlate(expected.getLicensePlate()))
@@ -155,15 +155,13 @@ public class CarroServiceTest {
 		target.alterar(1,1,expected);
 	}
 	
-	@Test
+	@Test(expected = ResponseStatusException.class)
 	public void alterarFailPlacaNull() {
 		final Carro expected = getCarroComUserMock();
 		final Carro expected1 = getCarroComUserMock();
 		expected1.setId(3);
 		when(carroRepository.findByIdAndUsuarioId(expected.getId(), 1))
-		.thenReturn(expected);
-		when(carroRepository.findByLicensePlate(expected.getLicensePlate()))
-		.thenReturn(expected);
+		.thenReturn(null);
 		target.alterar(1,1,expected);
 	}
 	
@@ -178,7 +176,7 @@ public class CarroServiceTest {
 	
 	@Test(expected = ResponseStatusException.class)
 	public void removerFail() {
-		final Carro expected = getCarroComUserMock();
+		Carro expected = getCarroComUserMock();
 		when(carroRepository.findByIdAndUsuarioId(expected.getId(), 1))
 		.thenReturn(null);
 		target.removerCarroId(1,1);
@@ -190,16 +188,17 @@ public class CarroServiceTest {
 	public void todosCars() {
 		List<Carro> cars = new ArrayList<Carro>();
 		cars.add(getCarroComUserMock());
-		when(carroRepository.findAllByUsuarioId(1))
+		when(carroRepository.findAllByUsuarioIdOrderByContadorDescModelAsc(1))
 		.thenReturn(cars);
 		target.carsAll(1);
 	}
 	
 	@Test
 	public void todosCarsId() {
-		Carro car = getCarroMock();
-		when(carroRepository.findByIdAndUsuarioId(1,1))
+		Carro car = getCarroComUserMock();
+		when(carroRepository.findByIdAndUsuarioId(1, 1))
 		.thenReturn(car);
+		when(carroRepository.save(car)).thenReturn(car);
 		target.carsId(1,1);
 	}
 	private Usuario getUsuarioMock(Integer id) {
@@ -213,9 +212,10 @@ public class CarroServiceTest {
 		usuario.setPassword("password");
 		usuario.setLogin("login");
 		usuario.setPhone("phone");
-//		List<Carro> carro = new ArrayList<Carro>();
-//		carro.add(getCarroMock());
-//		usuario.setCars(carro);
+		usuario.setContador(1);
+		List<Carro> carro = new ArrayList<Carro>();
+		carro.add(getCarroMock());
+		usuario.setCars(carro);
 		return usuario;
 	}
 	
@@ -226,6 +226,7 @@ public class CarroServiceTest {
 		carro.setLicensePlate("licensePlate");
 		carro.setColor("color");
 		carro.setModel("model");
+		carro.setContador(1);
 		return carro;
 	}
 	private Carro getCarroComUserMock() {
@@ -235,6 +236,8 @@ public class CarroServiceTest {
 		carro.setLicensePlate("licensePlate");
 		carro.setColor("color");
 		carro.setModel("model");
+		carro.setContador(1);
+		carro.setUsuario(new Usuario());
 		carro.setUsuario(getUsuarioMock(1));
 		return carro;
 	}

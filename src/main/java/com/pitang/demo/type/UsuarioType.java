@@ -18,6 +18,7 @@ public class UsuarioType {
 	private String login;
 	private String password;
 	private String phone;
+	private Integer contador;
 	
 	private List<CarroType> cars;
 
@@ -90,5 +91,15 @@ public class UsuarioType {
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getContador() {
+		return contador;
+	}
+
+	public void setContador(Integer contador) {
+		this.contador = contador;
 	}		
+	
+	
 }

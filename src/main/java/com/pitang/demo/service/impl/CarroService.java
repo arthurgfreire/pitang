@@ -22,6 +22,9 @@ public class CarroService implements ICarroService{
 
 	@Inject
 	private CarroRepository carroRepository;
+	
+	@Inject
+	private UsuarioRepository usuarioRepository;
 
 	private final String CAMPOS_NAO_PREENCHIDOS = "Missing fields";
 	private final String PLACA_JA_EXISTENTE = "License plate already exists";
@@ -33,7 +36,7 @@ public class CarroService implements ICarroService{
 	 */
 	@Override
 	public List<Carro> carsAll(Integer id) {
-		return carroRepository.findAllByUsuarioId(id);
+		return carroRepository.findAllByUsuarioIdOrderByContadorDescModelAsc(id);
 	}
 
 	/** Buscar um carro pelo id do carro e pelo ID do usuario que está logado
@@ -44,7 +47,7 @@ public class CarroService implements ICarroService{
 	 */
 	@Override
 	public Carro carsId(Integer id, Integer idCarroLogado) {
-		return carroRepository.findByIdAndUsuarioId(id, idCarroLogado);
+		return  addContadorMais(carroRepository.findByIdAndUsuarioId(id, idCarroLogado));
 	}
 
 	/** Buscar um carro especifico do usuario que está logado
@@ -56,7 +59,9 @@ public class CarroService implements ICarroService{
 	public void removerCarroId(Integer id, Integer idCarroLogado) {
 		Carro carro = carroRepository.findByIdAndUsuarioId(id, idCarroLogado);
 		if(carro!=null) {
+			carro.getUsuario().setContador(carro.getUsuario().getContador()-carro.getContador());
 			carroRepository.delete(carro);
+			usuarioRepository.save(carro.getUsuario());
 		}else {
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND,"Carro não existe");
@@ -94,9 +99,9 @@ public class CarroService implements ICarroService{
 				carro.setId(id);
 				validarCampos(carro);
 				validarPlacaAlteracao(carro);
-				carro.setUsuario(new Usuario());
-				carro.getUsuario().setId(idLogado);
-				return carroRepository.save(carro);
+				carro.setUsuario(car.getUsuario());
+				carro.setContador(car.getContador());
+				return addContadorMais(carro);
 			}else {
 				throw new ResponseStatusException(
 						HttpStatus.NOT_FOUND,"Carro não existe");
@@ -140,6 +145,21 @@ public class CarroService implements ICarroService{
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND,PLACA_JA_EXISTENTE);
 		}
+	}
+	
+	/** Adicionar mais 1 para o contador do carro e usuario
+	 * @param Carro carro
+	 * @param Carro
+	 * @author arthur.gomes.f.souza
+	 */
+	private Carro addContadorMais(Carro carro) {
+		if(carro!=null) {
+			carro.setContador(carro.getContador()+1);
+			carro.getUsuario().setContador(carro.getUsuario().getContador()+1);
+			usuarioRepository.save(carro.getUsuario());
+			return carroRepository.save(carro);
+		}
+		return carro;
 	}
 
 }

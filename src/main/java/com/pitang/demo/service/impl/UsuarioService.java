@@ -76,6 +76,7 @@ public class UsuarioService implements IUsuarioService{
 				usuario.setPassword(BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt()));
 				carroRepository.deleteAll(usuarioExiste.getCars());
 				usuario.setCreatedAt(usuarioExiste.getCreatedAt());
+				usuario.setContador(0);
 				usuario.setCars(carroRepository.saveAll(usuario.getCars()));
 				return usuarioReposity.save(usuario);
 			}else {
@@ -94,7 +95,7 @@ public class UsuarioService implements IUsuarioService{
 	 */
 	@Override
 	public List<Usuario> usersAll() {
-		return usuarioReposity.findAll();
+		return usuarioReposity.findByOrderByContadorDescLoginAsc();
 	}
 
 	/** Listar usuario por id
@@ -104,7 +105,7 @@ public class UsuarioService implements IUsuarioService{
 	 */
 	@Override
 	public Usuario usersId(Integer id) {
-		return usuarioReposity.findById(id).orElse(null);
+		return usuarioReposity.findByIdOrderByContadorDescLoginAsc(id);
 	}
 
 	/** Remover Usuario por Id

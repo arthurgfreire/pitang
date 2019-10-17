@@ -188,26 +188,30 @@ public class UsuarioServiceTest {
 	
 	@Test
 	public void listaTodos() {
+		final List<Usuario> expecteds = new ArrayList<Usuario>(); 
+		expecteds.add(getUsuarioMock(1));
+		when(usuarioReposity.findByOrderByContadorDescLoginAsc())
+		.thenReturn(expecteds);
 		target.usersAll();
 	}
 	
 	@Test
 	public void listaPorId() {
 		final Usuario expected = getUsuarioMock(1);
-		when(usuarioReposity.findById(expected.getId()))
-		.thenReturn(Optional.ofNullable(expected));
+		when(usuarioReposity.findByIdOrderByContadorDescLoginAsc(expected.getId()))
+		.thenReturn(expected);
 		target.usersId(expected.getId());
 	}
 	
 	@Test
-	public void loginRemover() {
+	public void Remover() {
 		final Usuario expected = getUsuarioMock(1);
 		when(usuarioReposity.findById(expected.getId()))
 		.thenReturn(Optional.ofNullable(expected));
 		target.removerUserId(expected.getId());
 	}
 	@Test
-	public void loginRemoverCarNull() {
+	public void RemoverCarNull() {
 		final Usuario expected = getUsuarioMock(1);
 		expected.setCars(new ArrayList<Carro>());
 		when(usuarioReposity.findById(expected.getId()))
@@ -217,7 +221,7 @@ public class UsuarioServiceTest {
 	}
 	
 	@Test(expected = ResponseStatusException.class)
-	public void loginGerarTokenFailLoginPassNaoExist() {
+	public void removerFailUserNaoExist() {
 		final Usuario expected = getUsuarioMock(1);
 		when(usuarioReposity.findById(expected.getId()))
 		.thenReturn(Optional.empty());

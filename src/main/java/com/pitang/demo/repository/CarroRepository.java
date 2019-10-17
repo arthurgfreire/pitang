@@ -10,7 +10,7 @@ import com.pitang.demo.model.Carro;
 @Repository
 public interface CarroRepository extends JpaRepository<Carro, Integer>{
 
-	public List<Carro> findAllByUsuarioId (Integer id);
+	public List<Carro> findAllByUsuarioIdOrderByContadorDescModelAsc (Integer id);
 	
 	public Carro findByIdAndUsuarioId (Integer id, Integer idCarroLogado);
 	

@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 @Entity
 public class Usuario {
@@ -33,8 +34,11 @@ public class Usuario {
 	private LocalDate birthday;
 	@Column(nullable = false)
 	private LocalDate createdAt;
+	@Column(nullable = false)
+	private Integer contador;
 	@OneToMany
 	@JoinColumn(name = "usuario_id")
+	@OrderBy("contador DESC, model ASC")
 	private List<Carro> cars;
 
 	public Integer getId() {
@@ -117,7 +121,12 @@ public class Usuario {
 		this.cars = cars;
 	}
 
+	public Integer getContador() {
+		return contador;
+	}
 
-	
+	public void setContador(Integer contador) {
+		this.contador = contador;
+	}
 	
 }
