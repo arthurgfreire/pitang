@@ -40,11 +40,8 @@ public class CarroTypeConverter implements ITypeConverter<CarroType, Carro>{
 			carro.setLicensePlate(carroType.getLicensePlate());
 			carro.setModel(carroType.getModel());
 			carro.setYear(carroType.getYear());
-			if(carroType.getContador()==null) {
-				carro.setContador(0);
-			}else {
-				carro.setContador(carroType.getContador());
-			}
+			carro.setContador(0);
+
 			return carro;
 		}
 		return null;

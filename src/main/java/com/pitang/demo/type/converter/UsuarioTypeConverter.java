@@ -27,11 +27,7 @@ public class UsuarioTypeConverter implements ITypeConverter<UsuarioType, Usuario
 			usuarioType.setLogin(usuario.getLogin());
 			usuarioType.setPhone(usuario.getPhone());
 			usuarioType.setBirthday(usuario.getBirthday());
-			if(usuario.getContador()==null) {
-				usuarioType.setContador(0);
-			}else {
-				usuarioType.setContador(usuario.getContador());
-			}
+			usuarioType.setContador(0);
 			usuarioType.setCars(carroTypeConverter.convertToType(usuario.getCars()));
 			return usuarioType;
 		}
