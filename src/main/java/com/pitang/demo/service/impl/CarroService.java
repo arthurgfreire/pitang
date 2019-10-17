@@ -19,8 +19,6 @@ import com.pitang.demo.util.Util;
 @Service
 public class CarroService implements ICarroService{
 
-	@Autowired
-	private UsuarioRepository usuarioReposity;
 
 	@Inject
 	private CarroRepository carroRepository;
@@ -55,7 +53,7 @@ public class CarroService implements ICarroService{
 		validarPlaca(carro);
 		carro.setId(null);
 		carro.setUsuario(new Usuario());
-		carro.getUsuario().setIdUsuario(idLogado);
+		carro.getUsuario().setId(idLogado);
 		return carroRepository.save(carro);
 	}
 
@@ -68,7 +66,7 @@ public class CarroService implements ICarroService{
 				validarCampos(carro);
 				validarPlacaAlteracao(carro);
 				carro.setUsuario(new Usuario());
-				carro.getUsuario().setIdUsuario(idLogado);
+				carro.getUsuario().setId(idLogado);
 				return carroRepository.save(carro);
 			}else {
 				throw new ResponseStatusException(
@@ -89,14 +87,14 @@ public class CarroService implements ICarroService{
 	}
 
 	private void validarPlaca(Carro carro) {
-		if(carroRepository.findBylicensePlate(carro.getLicensePlate())!=null) {
+		if(carroRepository.findByLicensePlate(carro.getLicensePlate())!=null) {
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND,PLACA_JA_EXISTENTE);
 		}
 	}
 
 	private void validarPlacaAlteracao(Carro carro) {
-		Carro car = carroRepository.findBylicensePlate(carro.getLicensePlate());
+		Carro car = carroRepository.findByLicensePlate(carro.getLicensePlate());
 		if(car!=null &&	car.getId()!=carro.getId()) {
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND,PLACA_JA_EXISTENTE);

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessingFilter {
-
+	private final String TOKEN_NAO_ENVIADO = "Unauthorized";
     public JwtAuthenticationTokenFilter() {
         super("/cars**/**");
     }
@@ -24,7 +24,7 @@ public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessi
 
 
         if (header == null) { 
-        	throw new RuntimeException("Token não enviado");
+        	throw new RuntimeException(TOKEN_NAO_ENVIADO);
         }
         	if(!header.startsWith("Token ")) {
             throw new RuntimeException("JWT Token is missing");

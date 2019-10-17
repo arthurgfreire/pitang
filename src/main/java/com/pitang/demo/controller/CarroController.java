@@ -40,7 +40,7 @@ public class CarroController {
 	@RequestMapping(value="/cars",
 			produces=MediaType.APPLICATION_JSON_VALUE,
 			method=RequestMethod.GET)
-	public ResponseEntity<List<CarroType>> cadastrarUsuario() {
+	public ResponseEntity<List<CarroType>> carsAll() {
 		return new ResponseEntity<>(carroTypeConverter.convertToType(
 				carroService.carsAll(usuarioLogado().getId())), HttpStatus.OK);
 	}

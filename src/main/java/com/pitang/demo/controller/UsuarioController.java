@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.pitang.demo.security.JwtValidator;
 import com.pitang.demo.service.ICarroService;
@@ -89,6 +90,9 @@ public class UsuarioController {
 			method=RequestMethod.GET)
 	public ResponseEntity<UsuarioLogadoType> cadastrarUsuario() {
 		String authorization = request.getHeader("Authorization");
+		if(authorization==null) {
+			authorization="";
+    	}
 		UsuarioLogadoType jwtUser = jwtValidato.validate(authorization.replace("Token ", ""));
 		return  new ResponseEntity<>(usuarioLogadoTypeConverter.convertToType(usuarioService.usersId(jwtUser.getId()), jwtUser.getLastLogin()), HttpStatus.OK);
 	}

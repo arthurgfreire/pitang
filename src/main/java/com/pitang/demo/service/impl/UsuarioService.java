@@ -38,13 +38,15 @@ public class UsuarioService implements IUsuarioService{
 	private final String LOGIN_JA_EXISTENTE = "Login already exists";
 	private final String CAMPOS_INVALIDOS = "Invalid fields";
 	private final String CAMPOS_NAO_PREENCHIDOS = "Missing fields";
+	private final String PLACA_JA_EXISTENTE = "License plate already exists";
 
 
 	public Usuario cadastrar(Usuario usuario) {
-		usuario.setIdUsuario(null);
+		usuario.setId(null);
 		camposNaoPreenchido(usuario); 
 		existeEmail(usuario.getEmail());
 		existeLogin(usuario.getLogin());
+		validarPlaca(usuario.getCars());
 		usuario.setPassword(BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt()));
 		usuario.setCreatedAt(LocalDate.now());
 		usuario.setCars(carroRepository.saveAll(usuario.getCars()));
@@ -56,12 +58,14 @@ public class UsuarioService implements IUsuarioService{
 		if(id!=null) {
 			Usuario usuarioExiste =  usuarioReposity.findById(id).orElse(null);
 			if(usuarioExiste!=null) {
-				usuario.setIdUsuario(usuarioExiste.getId());
+				usuario.setId(usuarioExiste.getId());
 				camposNaoPreenchido(usuario); 
 				existeEmailAlteracao(usuario.getEmail(),id);
 				existeLoginAlteracao(usuario.getLogin(),id);
+				validarPlacaAlteracao(usuario.getCars(),id);
 				usuario.setPassword(BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt()));
 				carroRepository.deleteAll(usuarioExiste.getCars());
+				usuario.setCreatedAt(usuarioExiste.getCreatedAt());
 				usuario.setCars(carroRepository.saveAll(usuario.getCars()));
 				return usuarioReposity.save(usuario);
 			}else {
@@ -86,7 +90,11 @@ public class UsuarioService implements IUsuarioService{
 
 	@Override
 	public void removerUserId(Integer id) {
-		if(usuarioReposity.findById(id).orElse(null)!=null) {
+		Usuario users = usuarioReposity.findById(id).orElse(null);
+		if(users!=null) {
+			if(!users.getCars().isEmpty()) {
+				carroRepository.deleteAll(users.getCars());
+			}
 			usuarioReposity.deleteById(id);
 		}else {
 			throw new ResponseStatusException(
@@ -101,7 +109,7 @@ public class UsuarioService implements IUsuarioService{
 		if(usuarioLogado==null||
 				!BCrypt.checkpw(password, usuarioLogado.getPassword())) {
 			throw new ResponseStatusException(
-					HttpStatus.NOT_FOUND,"Usuário ou senha incorreta");
+					HttpStatus.NOT_FOUND,LOGIN_INEXISTENTE_OU_SENHA_INVÁLIDA);
 		}
 		return jwtGenerator.generate(usuarioLogado,LocalDate.now());
 	}
@@ -147,7 +155,6 @@ public class UsuarioService implements IUsuarioService{
 	}	
 
 	private void existeLoginAlteracao(String login, Integer id) {
-		Usuario a = usuarioReposity.findByLoginIgnoreCaseAndIdNot(login, id);
 		if(usuarioReposity.findByLoginIgnoreCaseAndIdNot(login, id)!=null) {
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND,LOGIN_JA_EXISTENTE);
@@ -159,6 +166,45 @@ public class UsuarioService implements IUsuarioService{
 				Util.isStringNullOrEmpty(password)) {
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND,CAMPOS_NAO_PREENCHIDOS);
+		}
+	}
+
+	private void validarPlaca(List<Carro> carros) {
+		for(Carro carro:carros) {
+			int x=0;
+			for(Carro car:carros) {
+				if(car.getLicensePlate().equalsIgnoreCase(carro.getLicensePlate())) {
+					x=x+1;
+					if(x==2) {
+						throw new ResponseStatusException(
+								HttpStatus.NOT_FOUND,PLACA_JA_EXISTENTE);
+					}
+				}
+			}
+			if(carroRepository.findByLicensePlate(carro.getLicensePlate())!=null) {
+				throw new ResponseStatusException(
+						HttpStatus.NOT_FOUND,PLACA_JA_EXISTENTE);
+			}
+		}
+	}
+
+	private void validarPlacaAlteracao(List<Carro> carros, Integer id) {
+		for(Carro carro:carros) {
+			int x=0;
+			for(Carro car:carros) {
+				if(car.getLicensePlate().equalsIgnoreCase(carro.getLicensePlate())) {
+					x=x+1;
+					if(x==2) {
+						throw new ResponseStatusException(
+								HttpStatus.NOT_FOUND,PLACA_JA_EXISTENTE);
+					}
+				}
+			}
+			Carro cars = carroRepository.findByLicensePlate(carro.getLicensePlate());
+			if(cars!=null&&cars.getUsuario().getId()!=id) {
+				throw new ResponseStatusException(
+						HttpStatus.NOT_FOUND,PLACA_JA_EXISTENTE);
+			}
 		}
 	}
 }

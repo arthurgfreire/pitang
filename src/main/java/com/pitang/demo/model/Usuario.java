@@ -15,7 +15,6 @@ import javax.persistence.OneToMany;
 public class Usuario {
 	@Id
 	@GeneratedValue
-	@Column(name= "idUsuario")
 	private Integer id;
 	
 	@Column(nullable = false)
@@ -42,7 +41,7 @@ public class Usuario {
 		return id;
 	}
 
-	public void setIdUsuario(Integer idUsuario) {
+	public void setId(Integer idUsuario) {
 		this.id = idUsuario;
 	}
 

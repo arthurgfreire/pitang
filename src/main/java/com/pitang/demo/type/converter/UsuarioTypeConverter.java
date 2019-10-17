@@ -37,7 +37,7 @@ public class UsuarioTypeConverter implements ITypeConverter<UsuarioType, Usuario
 	public Usuario convertToEntity(UsuarioType usuarioType) {
 		if(usuarioType!=null) {
 			Usuario usuario = new Usuario();
-			usuario.setIdUsuario(usuarioType.getId());
+			usuario.setId(usuarioType.getId());
 			usuario.setEmail(usuarioType.getEmail());
 			usuario.setFirstName(usuarioType.getFirstName());
 			usuario.setLastName(usuarioType.getLastName());
