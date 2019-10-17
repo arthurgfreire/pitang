@@ -40,7 +40,11 @@ public class UsuarioService implements IUsuarioService{
 	private final String CAMPOS_NAO_PREENCHIDOS = "Missing fields";
 	private final String PLACA_JA_EXISTENTE = "License plate already exists";
 
-
+	/** Cadastrar usuario
+	 * @param Usuario
+	 * @return Usuario
+	 * @author arthur.gomes.f.souza
+	 */
 	public Usuario cadastrar(Usuario usuario) {
 		usuario.setId(null);
 		camposNaoPreenchido(usuario); 
@@ -53,6 +57,12 @@ public class UsuarioService implements IUsuarioService{
 		return usuarioReposity.save(usuario);
 	}
 
+	/** Alterar usuario cadastrado
+	 * @param Usuario
+	 * @param Integer
+	 * @return Usuario
+	 * @author arthur.gomes.f.souza
+	 */
 	@Override
 	public Usuario alterar(Usuario usuario,Integer id) {
 		if(id!=null) {
@@ -78,16 +88,29 @@ public class UsuarioService implements IUsuarioService{
 		}
 	}
 
+	/** Listar todos os usuarios
+	 * @return List<Usuario>
+	 * @author arthur.gomes.f.souza
+	 */
 	@Override
 	public List<Usuario> usersAll() {
 		return usuarioReposity.findAll();
 	}
 
+	/** Listar usuario por id
+	 * @param Integer
+	 * @return List<Usuario>
+	 * @author arthur.gomes.f.souza
+	 */
 	@Override
 	public Usuario usersId(Integer id) {
 		return usuarioReposity.findById(id).orElse(null);
 	}
 
+	/** Remover Usuario por Id
+	 * @param Integer
+	 * @author arthur.gomes.f.souza
+	 */
 	@Override
 	public void removerUserId(Integer id) {
 		Usuario users = usuarioReposity.findById(id).orElse(null);
@@ -102,6 +125,13 @@ public class UsuarioService implements IUsuarioService{
 		}
 	}
 
+	/** Remover Usuario por Id
+	 * quando feito o login e senha retorna o token
+	 * @param String login
+	 * @param String password
+	 * @return String
+	 * @author arthur.gomes.f.souza
+	 */
 	@Override
 	public String login(String login, String password) {
 		camposLoginPasswordNaoPreenchido(login,password);
@@ -114,6 +144,10 @@ public class UsuarioService implements IUsuarioService{
 		return jwtGenerator.generate(usuarioLogado,LocalDate.now());
 	}
 
+	/** valida os campos que são obrigatorio na tabela 
+	 * @param String Usuario
+	 * @author arthur.gomes.f.souza
+	 */
 	private boolean camposNaoPreenchido(Usuario usuario) {
 		boolean retorno = false;
 		if(Util.isStringNullOrEmpty(usuario.getEmail())||Util.isStringNullOrEmpty(usuario.getFirstName())||
@@ -133,12 +167,21 @@ public class UsuarioService implements IUsuarioService{
 		return retorno;
 	}	
 
+	/** valida Email para metodo de cadastro
+	 * @param String email
+	 * @author arthur.gomes.f.souza
+	 */
 	private void existeEmail(String email) {
 		if(usuarioReposity.findByEmailIgnoreCase(email)!=null) {
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND,EMAIL_JA_EXISTENTE);
 		}
 	}
+	/** Valida Emailpara o metodo de Alteracao  
+	 * @param String email
+	 * @param Integer id
+	 * @author arthur.gomes.f.souza
+	 */
 	private void existeEmailAlteracao(String email, Integer id) {
 		Usuario a = usuarioReposity.findByEmailIgnoreCaseAndIdNot(email, id);
 		if(usuarioReposity.findByEmailIgnoreCaseAndIdNot(email,id)!=null) {
@@ -147,6 +190,10 @@ public class UsuarioService implements IUsuarioService{
 		}
 	}
 
+	/** Valida Login para o metodo de cadastro  
+	 * @param String login
+	 * @author arthur.gomes.f.souza
+	 */
 	private void existeLogin(String login) {
 		if(usuarioReposity.findByLoginIgnoreCase(login)!=null) {
 			throw new ResponseStatusException(
@@ -154,6 +201,11 @@ public class UsuarioService implements IUsuarioService{
 		}
 	}	
 
+	/** Valida Login para o metodo de Alteracao  
+	 * @param String login
+	 * @param Integer id
+	 * @author arthur.gomes.f.souza
+	 */
 	private void existeLoginAlteracao(String login, Integer id) {
 		if(usuarioReposity.findByLoginIgnoreCaseAndIdNot(login, id)!=null) {
 			throw new ResponseStatusException(
@@ -161,6 +213,11 @@ public class UsuarioService implements IUsuarioService{
 		}
 	}	
 
+	/** Valida Login e password não estao null 
+	 * @param String login
+	 * @param String password
+	 * @author arthur.gomes.f.souza
+	 */
 	private void camposLoginPasswordNaoPreenchido(final String login, final String password) {
 		if(Util.isStringNullOrEmpty(login)||
 				Util.isStringNullOrEmpty(password)) {
@@ -168,7 +225,11 @@ public class UsuarioService implements IUsuarioService{
 					HttpStatus.NOT_FOUND,CAMPOS_NAO_PREENCHIDOS);
 		}
 	}
-
+	
+	/** Validar se a placa existe em outro veiculo para metodo de cadastrar 
+	 * @param List<Carro> carros
+	 * @author arthur.gomes.f.souza
+	 */
 	private void validarPlaca(List<Carro> carros) {
 		for(Carro carro:carros) {
 			int x=0;
@@ -188,6 +249,10 @@ public class UsuarioService implements IUsuarioService{
 		}
 	}
 
+	/** Validar se a placa existe em outro veiculo para metodo de Alterar 
+	 * @param List<Carro> carros
+	 * @author arthur.gomes.f.souza
+	 */
 	private void validarPlacaAlteracao(List<Carro> carros, Integer id) {
 		for(Carro carro:carros) {
 			int x=0;

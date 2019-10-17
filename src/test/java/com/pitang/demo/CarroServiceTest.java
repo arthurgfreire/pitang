@@ -35,10 +35,6 @@ public class CarroServiceTest {
 	@Mock
 	private JwtGenerator jwtGenerator;
 	
-	private final String EMAIL = "email";
-	private final String PASSWORD = "password";
-	private final String AUTHORIZATION = "authorization";
-	
 	//////////////// Ini Cadastro
 	@Test 
 	public void cadastrarTest() {
