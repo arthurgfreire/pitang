@@ -1,3 +1,8 @@
+# OBS
+Para acessar a plicacao precisa da baixar o Postman e colocar antes de cada endpoint o endereco "52.14.19.166:8090" esse é o ip do servico no AWS, todas as rotas foram feitas com e sem autenticacao de usuario, a atividade bonus tambem foi feita "Requisito extra (bonus stage)".       
+
+
+
 # ESTÓRIAS DE USUÁRIO
 1 - Cadastrar um novo usuario com seus devidos carros - configurações 
 Endpoint: /api/users  RequestMethod: POST
@@ -74,3 +79,44 @@ obs: informar os dados pelo headers pos é mais seguro para informar login e sen
 Exemplo:
 KEY: login  VALUE: hello.world3
 KEY: password  VALUE: h3ll0
+
+7 - Retornar as informações do usuário logado : retorna informacoes do usuario atraves do token 
+Endpoint: /api/me  RequestMethod: GET
+obs: informar do token é passada pelo headers. Quando for colocar o token sempre add "Token "+ Token gerado
+Exemplo:
+KEY: Authorization  VALUE: Token eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoZWxsby53b3JsZCIsInVzZXJJZCI6IjYiLCJyb2xlIjoiYWRtaW4iLCJsYXN0TG9naW4iOiIyMDE5LTEwLTE3In0.09AqctIknITVFsKb67E82TKBBw2iL0ejPg6pE7oK1cNBhr7izl05TXgk0Mz17y7D7aDU-rJWe1gdemGfaT0_Cw
+
+8 - Listar todos os carros do usuário logado : Lista todos os carros do usuario logado
+Endpoint: api/cars  RequestMethod: GET
+obs: informar do token é passada pelo headers. Quando for colocar o token sempre add "Token "+ Token gerado
+Exemplo:
+KEY: Authorization  VALUE: Token eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoZWxsby53b3JsZCIsInVzZXJJZCI6IjYiLCJyb2xlIjoiYWRtaW4iLCJsYXN0TG9naW4iOiIyMDE5LTEwLTE3In0.09AqctIknITVFsKb67E82TKBBw2iL0ejPg6pE7oK1cNBhr7izl05TXgk0Mz17y7D7aDU-rJWe1gdemGfaT0_Cw
+
+9 - Cadastrar e alterar Carro : foi feito as duas API juntas
+obs: informar do token é passada pelo headers. Quando for colocar o token sempre add "Token "+ Token gerado
+Exemplo:
+KEY: Authorization  VALUE: Token eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoZWxsby53b3JsZCIsInVzZXJJZCI6IjYiLCJyb2xlIjoiYWRtaW4iLCJsYXN0TG9naW4iOiIyMDE5LTEwLTE3In0.09AqctIknITVFsKb67E82TKBBw2iL0ejPg6pE7oK1cNBhr7izl05TXgk0Mz17y7D7aDU-rJWe1gdemGfaT0_Cw
+
+cadastro
+Endpoint: api/cars  RequestMethod: POST
+json:
+{
+"year": 2018,
+"licensePlate": "PDV-06737",
+"model": "Audi",
+"color": "White"
+}
+
+alteracao:
+Endpoint: /api/cars/{id}  RequestMethod: PUT
+json: 
+{
+"year": 2020,
+"licensePlate": "PDV-073335",
+"model": "Aaudio",
+"color": "red"
+}
+
+10 - Desafio do Requisito extra concluido : desafio concluido.
+
+
