@@ -27,7 +27,11 @@ public class UsuarioTypeConverter implements ITypeConverter<UsuarioType, Usuario
 			usuarioType.setLogin(usuario.getLogin());
 			usuarioType.setPhone(usuario.getPhone());
 			usuarioType.setBirthday(usuario.getBirthday());
-			usuarioType.setContador(0);
+			if(usuario.getContador()==null) {
+				usuarioType.setContador(0);
+			}else {
+				usuarioType.setContador(usuario.getContador());
+			}
 			usuarioType.setCars(carroTypeConverter.convertToType(usuario.getCars()));
 			return usuarioType;
 		}
@@ -46,11 +50,7 @@ public class UsuarioTypeConverter implements ITypeConverter<UsuarioType, Usuario
 			usuario.setLogin(usuarioType.getLogin());
 			usuario.setPhone(usuarioType.getPhone());
 			usuario.setBirthday(usuarioType.getBirthday());
-			if(usuarioType.getContador()==null) {
-				usuario.setContador(0);
-			}else {
-				usuario.setContador(usuarioType.getContador());
-			}
+			usuario.setContador(0);
 			try {
 				usuario.setCars(carroTypeConverter.convertToEntity(usuarioType.getCars()));
 			}catch (Exception e) {
